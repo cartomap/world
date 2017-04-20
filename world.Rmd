@@ -1,0 +1,205 @@
+---
+title: "EU kaarten t.b.v. CBS"
+author: "Edwin de Jonge, Chantal Melser, Martijn Tennekes"
+output:
+  html_notebook: default
+  cbsmarkdown::cbs_word_document: default
+  cbsmarkdown::cbs_html_document: default
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE)
+library(tmap)
+library(tmaptools)
+data("Europe")
+proj <- get_projection(Europe)
+```
+
+# Bron-materiaal
+
+De kaarten die gebruikt zijn komen van de Website van Eurostat:
+
+http://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units
+
+
+Landen
+: countries (2014), nauwkeurigheid 1:3M, http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/CNTR_2014_03M_SH.zip, bevat alle landen van de wereld, te gebruik als achtergrond/vulling voor de echte kaarten.
+
+NUTS
+: nuts indeling (2013), nauwkeurigheid 1: 1M, http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/NUTS_2013_01M_SH.zip,
+bevat alle landen die op een of andere wijze betrokken zijn in de EU, bijv. ook kandidaatleden.
+
+## Simplification of maps
+
+De kaarten moeten uiteindelijk in HighChart gebruikt worden, worden  gebruikt voor het weergeven van geheel 
+Europa en hoeven daarom niet supergedetailleerd te zijn. De kaarten zijn daarom gegeneraliseert/simplificeert.
+
+We hebben hiervoor de `mapshaper`-tool van http://mapshaper.org gebruikt, waarbij de kaarten tot 10% gesimpliceerd zijn, met standaard-instellingen.
+
+# Europa
+
+## Projectie + bounding box
+
+De standaard-projectie van de kaarten is latlong-ETRS, die minder geschikt is voor cartografische toepassingen.
+
+Een beetje uitzoekwerk levert op dat het voor het voor Europese thematische kaarten gebruikelijk is om Lambert Equal 
+Area projectie te gebruiken ^[met dank aan eerder uitzoekwerk van Martijn Tennekes]. Deze projectie is gelijk aan EPSG:3035, de standaardprojectie zoals die door INSPIRE voorgeschreven wordt voor Europa.
+```{r}
+get_proj4("3035")
+```
+Verder bevatten de kaartbestanden ook de niet-europese overzeesegebieden van de EU-lidstaten. Dit is op zich terecht, maar levert een onhandig cartografisch beeld op. Er wordt er daarom voor gekozen om alleen het Europese continent te
+tonen, zonder de overige gebieden (ook niet als _inset_).
+De gekozen _bounding box_ in geprojecteerde coordinaten is:
+
+```{r}
+sp::bbox(Europe)
+```
+
+
+### NUTS
+
+De projectie en bounding box voor de kaarten hebben de volgende effecten:
+
+```{r}
+nuts_old <- read_shape("data-raw/NUTS_2013_01M_SH/data/NUTS_RG_01M_2013.shp")
+europe_nuts0 <- read_shape("data/europe_nuts0.shp")
+europe_nuts1 <- read_shape("data/europe_nuts1.shp")
+europe_nuts2 <- read_shape("data/europe_nuts2.shp")
+europe_nuts3 <- read_shape("data/europe_nuts3.shp")
+```
+
+```{r, fig.cap="zonder projectie en boundingbox"}
+tm_shape(nuts_old) + tm_polygons(border.col="white", col="#00a1cd", lwd=0.5)
+```
+
+```{r, fig.cap="Lambert Equal Area projectie + bbox"}
+tm_shape(europe_nuts2) + tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
+```
+
+### Achtergrond-europa
+
+Omdat de databron alle landen van de wereld bevat is de projectie van de achtergrondkaart iets ingewikkelder: de Lambert Equal Area werkt niet met latlong coordinaten met 180 graden. Dus verklein eerst die kaart in de oorspronkelijke coordinaten, projecteer dan naar Lambert Equal Area en gebruik daarna dezelfde bounding box.
+
+
+## All together now:
+
+```{r}
+europe_background <- read_shape("data/europe_background.shp")
+tm_shape(europe_background) +
+  tm_polygons(border.col="white", col="gray90") +
+  tm_shape(europe_nuts2) + 
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
+```
+
+Moet de achtergrond lijnen gebruiken voor de grenzen?
+
+```{r}
+tm_shape(europe_background) +
+  tm_fill(col="gray90") +
+  tm_shape(europe_nuts2) + 
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
+
+```
+
+## Kaarten
+
+### nuts0
+
+```{r, fig.cap="nuts0"}
+tm_shape(europe_background) +
+  tm_fill(col="gray90") +
+  tm_shape(europe_nuts0) + 
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
+```
+
+### nuts1
+
+```{r, fig.cap="nuts1"}
+tm_shape(europe_background) +
+  tm_fill(col="gray90") +
+  tm_shape(europe_nuts1) + 
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd") 
+```
+
+### nuts2
+
+```{r, fig.cap="nuts2"}
+tm_shape(europe_background) +
+  tm_fill(col="gray90") +
+  tm_shape(europe_nuts2) + 
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
+```
+
+### nuts3
+
+```{r, fig.cap="nuts3"}
+tm_shape(europe_background) +
+  tm_fill(col="gray90") +
+  tm_shape(europe_nuts3) + 
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd", border.alpha=0.5)
+```
+
+## Open vragen:
+
+- De gekozen kaarten zijn de meest nauwkeurige die Eurostat aanbiedt: desondanks valt op dat de afbeelding van 
+Nederland niet heel nauwkeurig is: het IJsselmeer is weggepoetst. NB: Dit is geen effect van het simplificeren. Dit is niet erg, maar zal ongetwijfeld mensen opvallen. Wellicht is er alternatief kaartmateriaal dat NL nauwkeuriger beschrijft, maar dan moeten ook de nuts kaarten hiervoor beschikbaar zijn. (en dat is zeer de vraag.)
+
+- Malta: malta is een van de Europese landen, maar nauwelijks zichtbaar. Een mogelijke oplossing is om Malta te vergroten zodat het beter zichtbaar is. Voor cartografische toepassingen is een te overwegen optie.
+
+- Welke identifiers moeten opgenomen worden in de NUTS lagen?
+
+
+# Wereld
+
+## Simplificatie / generalisatie
+
+De wereldkaart is verder gesimpliceerd omdat de nauwkeurigheid nog minder van belang is. 
+De gekozen instelling is 3% met wederom de mapshaper tool.
+
+
+## Projectie
+
+De keuze mogelijkheid is nu steeds in de projectie: welke projectie levert een goede, getrouwe maar ook mooie wereldkaart op?
+
+### Ongeprojecteerd (WGS84)
+
+```{r}
+world <- read_shape("data/world_wgs84.shp")
+tm_shape(world) +
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
+```
+
+### Eckert IV
+
+Dit is oppervlakte-getrouwe projectie. Vaak wenselijk voor thematische kaarten, maar op wereldniveau te betwijfelen (vervorming is groot).
+
+```{r}
+world <- read_shape("data/world_eck4.shp")
+tm_shape(world) +
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
+```
+
+### Winkel Tripel
+
+Compromis tussen oppervlakte- en vormgetrouw. Veel gebruikt.
+
+```{r}
+world <- read_shape("data/world_wintri.shp")
+tm_shape(world) +
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
+```
+
+### Kavrayskiy VII
+
+Compromis tussen oppervlakte- en vormgetrouw.
+
+```{r}
+world <- read_shape("data/world_kav7.shp")
+tm_shape(world) +
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
+```
+
+## Open vragen
+
+- In de meeste projecties neemt Antarticatie een grote plek in. Omdat statistische data in het algemeen niet over Antartica gaat is het wellicht verstandig om een bounding box zo te kiezen dat Antartica geen onderdeel uitmaakt van de kaart.
+
