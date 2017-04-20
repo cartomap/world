@@ -20,12 +20,12 @@ do
 
   mkdir -p ../${proj}
   mapshaper -i ../data/world_${proj}.shp \
-   -o ../${proj}/world.geojson id-field=CNTR_ID
-   echo "[world.geojson](${proj}/world.geojson)" >> $MDFILE
+   -o ../${proj}/countries.geojson id-field=CNTR_ID
+   echo "[countries.geojson](${proj}/countries.geojson)" >> $MDFILE
 
   mapshaper -i ../data/world_${proj}.shp \
-   -o ../${proj}/world.topojson id-field=CNTR_ID
-   echo "[world.geojson](${proj}/world.geojson)" >> $MDFILE
+   -o ../${proj}/countries.topojson id-field=CNTR_ID
+   echo "[countries.geojson](${proj}/countries.geojson)" >> $MDFILE
 done
 
 rm -r CNTR_2014_03M_SH

@@ -2,21 +2,21 @@
 
 ## Projectie: wintri
 
-[world.geojson](wintri/world.geojson)
-[world.geojson](wintri/world.geojson)
+[countries.geojson](wintri/countries.geojson)
+[countries.geojson](wintri/countries.geojson)
 ## Projectie: eck4
 
-[world.geojson](eck4/world.geojson)
-[world.geojson](eck4/world.geojson)
+[countries.geojson](eck4/countries.geojson)
+[countries.geojson](eck4/countries.geojson)
 ## Projectie: kav7
 
-[world.geojson](kav7/world.geojson)
-[world.geojson](kav7/world.geojson)
+[countries.geojson](kav7/countries.geojson)
+[countries.geojson](kav7/countries.geojson)
 ## Projectie: wgs84
 
-[world.geojson](wgs84/world.geojson)
-[world.geojson](wgs84/world.geojson)
+[countries.geojson](wgs84/countries.geojson)
+[countries.geojson](wgs84/countries.geojson)
 ## Projectie: robinson
 
-[world.geojson](robinson/world.geojson)
-[world.geojson](robinson/world.geojson)
+[countries.geojson](robinson/countries.geojson)
+[countries.geojson](robinson/countries.geojson)
