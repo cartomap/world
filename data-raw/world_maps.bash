@@ -28,4 +28,4 @@ do
    echo "[countries.geojson](${proj}/countries.geojson)" >> $MDFILE
 done
 
-rm -r CNTR_2014_03M_SH
+#rm -r CNTR_2014_03M_SH

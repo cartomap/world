@@ -1,10 +1,10 @@
 ---
 title: "Wereld-kaarten t.b.v. CBS"
-author: "Edwin de Jonge, Chantal Melser, Martijn Tennekes"
+author: "Edwin de Jonge, Chantal Melser"
 output:
+  html_notebook: default
   cbsmarkdown::cbs_word_document: default
   cbsmarkdown::cbs_html_document: default
-  html_notebook: default
 ---
 
 ```{r, include=FALSE}
