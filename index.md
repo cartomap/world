@@ -1,22 +1,24 @@
 # World maps
 
-## Projectie: wintri
+## 2014
 
-[countries.geojson](wintri/countries.geojson)
-[countries.topojson](wintri/countries.topojson)
-## Projectie: eck4
+### Projection: wintri
 
-[countries.geojson](eck4/countries.geojson)
-[countries.topojson](eck4/countries.topojson)
-## Projectie: kav7
+[countries_2014.geojson](wintri/countries_2014.geojson)
+[countries_2014.topojson](wintri/countries_2014.topojson)
+### Projection: eck4
 
-[countries.geojson](kav7/countries.geojson)
-[countries.topojson](kav7/countries.topojson)
-## Projectie: wgs84
+[countries_2014.geojson](eck4/countries_2014.geojson)
+[countries_2014.topojson](eck4/countries_2014.topojson)
+### Projection: kav7
 
-[countries.geojson](wgs84/countries.geojson)
-[countries.topojson](wgs84/countries.topojson)
-## Projectie: robinson
+[countries_2014.geojson](kav7/countries_2014.geojson)
+[countries_2014.topojson](kav7/countries_2014.topojson)
+### Projection: wgs84
 
-[countries.geojson](robinson/countries.geojson)
-[countries.topojson](robinson/countries.topojson)
+[countries_2014.geojson](wgs84/countries_2014.geojson)
+[countries_2014.topojson](wgs84/countries_2014.topojson)
+### Projection: robinson
+
+[countries_2014.geojson](robinson/countries_2014.geojson)
+[countries_2014.topojson](robinson/countries_2014.topojson)
