@@ -1,6 +1,6 @@
-curl -O http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/CNTR_2014_03M_SH.zip
+#curl -O http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/CNTR_2014_03M_SH.zip
 
-unzip -o CNTR_2014_03M_SH.zip
+#unzip -o CNTR_2014_03M_SH.zip
 
 rm -r ../data
 mkdir ../data
@@ -25,7 +25,7 @@ do
 
   mapshaper -i ../data/world_${proj}.shp \
    -o ../${proj}/countries.topojson id-field=CNTR_ID
-   echo "[countries.geojson](${proj}/countries.geojson)" >> $MDFILE
+   echo "[countries.topojson](${proj}/countries.topojson)" >> $MDFILE
 done
 
 #rm -r CNTR_2014_03M_SH
