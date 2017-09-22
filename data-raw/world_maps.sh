@@ -1,6 +1,6 @@
-curl -O http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/CNTR_2014_03M_SH.zip
- 
-unzip -o CNTR_2014_03M_SH.zip
+# curl -O http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/CNTR_2014_03M_SH.zip
+#  
+# unzip -o CNTR_2014_03M_SH.zip
 
 rm -r ../data
 mkdir ../data
@@ -20,7 +20,7 @@ do
    -filter 'id != "AQ"' \
    -proj $proj densify \
    -simplify 1% keep-shapes \
-   -o ../data/world_${proj}.shp
+   -o ../data/world_${proj}.shp precision 0.001
 
   mkdir -p ../${proj}
   mapshaper -i ../data/world_${proj}.shp \
