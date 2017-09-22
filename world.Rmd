@@ -2,8 +2,9 @@
 title: "Wereld-kaarten t.b.v. CBS"
 author: "Edwin de Jonge, Chantal Melser"
 output:
-  html_notebook: default
+  pdf_document: default
   cbsmarkdown::cbs_word_document: default
+  html_notebook: default
   cbsmarkdown::cbs_html_document: default
 ---
 
@@ -32,7 +33,7 @@ De gekozen instelling is 3% met de [mapshaper](http://mapshaper.org) tool.
 
 ## Antartica
 
-Voor de meeste toepassingen is Antartica onnodig. We verwijderen daarom Antartica omdat het ook veel ruimte inneemt in veel projecties:
+Voor de meeste toepassingen is Antartica onnodig. We verwijderen daarom Antartica omdat het veel ruimte inneemt in veel projecties:
 
 ```{r}
 world <- read_shape("data-raw/CNTR_2014_03M_SH/Data/CNTR_RG_03M_2014.shp")
@@ -72,6 +73,14 @@ tm_shape(world) +
   tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
 ```
 
+### Robinson
+
+```{r}
+world <- read_shape("data/world_robinson.shp")
+tm_shape(world) +
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
+```
+
 ### Kavrayskiy VII
 
 Compromis tussen oppervlakte- en vormgetrouw.
@@ -86,5 +95,15 @@ tm_shape(world) +
 
 - Simplificatie kan waarschijnlijk nog verder terug gebracht worden: kijken wat hierbij nog mooi is.
 
-- In de meeste projecties neemt Antarticatie een grote plek in. Omdat statistische data in het algemeen niet over Antartica gaat is het wellicht verstandig om een bounding box zo te kiezen dat Antartica geen onderdeel uitmaakt van de kaart.
+- We hebben Antartica verwijderd: is het verstandig om ook een versie met Antartica te hebben?
 
+```{r}
+world <- read_shape("data/world_kav7.shp")
+tm_shape(world) +
+  tm_polygons(border.col="white", lwd=0.5, col="#00a1cd")
+```
+```{r}
+world <- read_shape("data/world_kav7.shp")
+tm_shape(world) +
+  tm_polygons(border.col="white", lwd=0.8, col="#00a1cd")
+```
