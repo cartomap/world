@@ -1,6 +1,6 @@
-#curl -O http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/CNTR_2014_03M_SH.zip
+curl -O http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/CNTR_2014_03M_SH.zip
  
-#unzip -o CNTR_2014_03M_SH.zip
+unzip -o CNTR_2014_03M_SH.zip
 
 rm -r ../data
 mkdir ../data
@@ -12,8 +12,8 @@ MDFILE="../index.md"
 
 echo -e "# World maps\n" > $MDFILE
 
-#for proj in "wintri" "eck4" "kav7" "wgs84" "robinson"
-for proj in "kav7" "wgs84" "robinson"
+for proj in "wintri" "eck4" "kav7" "wgs84" "robinson"
+#for proj in "kav7" "wgs84" "robinson"
 do
   echo -e "## Projectie: ${proj}\n" >> $MDFILE
   mapshaper -i world_raw.shp \

@@ -1,5 +1,13 @@
 # World maps
 
+## Projectie: wintri
+
+[countries.geojson](wintri/countries.geojson)
+[countries.topojson](wintri/countries.topojson)
+## Projectie: eck4
+
+[countries.geojson](eck4/countries.geojson)
+[countries.topojson](eck4/countries.topojson)
 ## Projectie: kav7
 
 [countries.geojson](kav7/countries.geojson)
